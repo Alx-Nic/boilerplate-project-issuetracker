@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+  "name": "Node.js",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+
+  "forwardPorts": [3000],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "sh .devcontainer/hooks/postCreateCommand.sh",
+  "mounts": [
+    // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+    "source=quality-issue-tracker-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume", //deps volume
+    "source=quality-issue-tracker-bashhistory,target=/commandhistory,type=volume", // bash history
+    "source=quality-issue-tracker-extensions,target=/root/.vscode-server/extensions,type=volume", // extensions volume
+    // And/or for VS Code Insiders
+    "source=quality-issue-tracker-extensions-insiders,target=/root/.vscode-server-insiders/extensions,type=volume" // indiders volume
+  ],
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "Codeium.codeium"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": true,
+          "source.fixAll.eslint": true,
+          "source.organizeImports": true,
+          "addMissingImports": true
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+  }
+}
